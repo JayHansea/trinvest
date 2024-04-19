@@ -1,6 +1,7 @@
 import AboutUs from "@/components/AboutUs";
 import Banner from "@/components/Banner";
 import Coinprice from "@/components/Coinprice";
+import FAQs from "@/components/FAQs";
 import Navbar from "@/components/Navbar";
 import Pricing from "@/components/Pricing";
 
@@ -16,6 +17,7 @@ export default function Home() {
       <Coinprice />
       <AboutUs />
       <Pricing />
+      <FAQs />
     </main>
   );
 }
