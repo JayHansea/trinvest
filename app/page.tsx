@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Pricing from "@/components/Pricing";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import BottomBanner from "@/components/BottomBanner";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
       <Pricing />
       <FAQs />
       <Contact />
+      <BottomBanner />
       <Footer />
     </main>
   );
