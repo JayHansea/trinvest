@@ -4,6 +4,7 @@ import Coinprice from "@/components/Coinprice";
 import FAQs from "@/components/FAQs";
 import Navbar from "@/components/Navbar";
 import Pricing from "@/components/Pricing";
+import Contact from "@/components/Contact";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <AboutUs />
       <Pricing />
       <FAQs />
+      <Contact />
     </main>
   );
 }
