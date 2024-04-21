@@ -50,9 +50,11 @@ const Banner = () => {
         </motion.div>
       ))}
       <div className="w-full md:w-6/12 mx-0 md:mx-4 flex justify-center md:justify-start">
-        <button className="w-auto h-auto px-7 py-2.5 bg-amber-300 text-black text-sm rounded-md hover:bg-white ">
-          Create an account
-        </button>
+        <Link href={"/signup"}>
+          <button className="w-auto h-auto px-7 py-2.5 bg-amber-300 text-black text-sm rounded-md hover:bg-white ">
+            Create an account
+          </button>
+        </Link>
       </div>
     </div>
   );

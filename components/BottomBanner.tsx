@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const BottomBanner = () => {
   return (
@@ -14,12 +15,14 @@ const BottomBanner = () => {
             </p>
           </div>
           <div className="mt-4 sm:mt-0">
-            <button
-              type="submit"
-              className="px-7 py-2.5 bg-amber-300 text-black text-sm rounded-md hover:bg-white"
-            >
-              Register
-            </button>
+            <Link href={"/signup"}>
+              <button
+                type="submit"
+                className="px-7 py-2.5 bg-amber-300 text-black text-sm rounded-md hover:bg-white"
+              >
+                Register
+              </button>
+            </Link>
           </div>
         </div>
       </div>
