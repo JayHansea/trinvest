@@ -8,6 +8,7 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import BottomBanner from "@/components/BottomBanner";
 import CryptoPlatforms from "@/components/CryptoPlatforms";
+import HowItWork from "@/components/HowItWork";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       </div>
       <Coinprice />
       <AboutUs />
+      <HowItWork />
       <Pricing />
       <CryptoPlatforms />
       <FAQs />
