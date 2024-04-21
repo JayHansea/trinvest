@@ -18,14 +18,23 @@ const Coinprice = () => {
         "locale": "${CoinpriceData.locale}"
       }
     `;
-    document.body.appendChild(script);
+
+    // Append the script to the parent div of Coinprice component
+    const coinpriceDiv = document.getElementById("coinprice-container");
+    if (coinpriceDiv) {
+      coinpriceDiv.appendChild(script);
+    }
+
+    // Cleanup function
     return () => {
-      document.body.removeChild(script);
+      if (coinpriceDiv && coinpriceDiv.contains(script)) {
+        coinpriceDiv.removeChild(script);
+      }
     };
   }, []);
 
   return (
-    <div className="tradingview-widget-container">
+    <div id="coinprice-container" className="tradingview-widget-container">
       <div className="tradingview-widget-container__widget"></div>
     </div>
   );
