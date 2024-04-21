@@ -7,6 +7,7 @@ import Pricing from "@/components/Pricing";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import BottomBanner from "@/components/BottomBanner";
+import CryptoPlatforms from "@/components/CryptoPlatforms";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <Coinprice />
       <AboutUs />
       <Pricing />
+      <CryptoPlatforms />
       <FAQs />
       <Contact />
       <BottomBanner />
