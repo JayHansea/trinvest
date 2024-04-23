@@ -25,9 +25,9 @@ const Navbar = () => {
   return (
     <div className={`relative ${navbar ? "sticky top-0 bg-black z-50" : ""}`}>
       <div className="w-full bg-banner-bg bg-top bg-no-repeat bg-cover">
-        <div className="w-full bg-black opacity-80 text-white">
+        <div className="w-full bg-black opacity-80">
           <div className="border-amber-300 text-amber-300 border-b-[1px]">
-            <div className="place-content-center container w-full h-28 mx-auto">
+            <div className="place-content-center container w-full h-20 mx-auto">
               <div className="max-w-screen-2xl h-full mx-auto px-4 flex items-center justify-between">
                 {/* Logo */}
                 <Link href="/">

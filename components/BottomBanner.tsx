@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const BottomBanner = () => {
   return (
-    <div className="relative isolate overflow-hidden bg-blue-950 py-10 sm:py-12 lg:py-16">
+    <div className="relative isolate overflow-hidden bg-gray-900 py-10 sm:py-12 lg:py-16">
       <div className="mx-auto px-6 lg:px-8 container">
         <div className="flex flex-col sm:flex-row justify-between items-center">
           <div className="flex flex-col">
