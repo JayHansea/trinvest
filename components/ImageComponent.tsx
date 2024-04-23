@@ -11,7 +11,7 @@ interface ImageProps {
 
 const ImageComponent: React.FC<ImageProps> = ({ src, alt, width, height }) => {
   return (
-    <div className="flex justify-center items-center p-6 my-2 shadow-xl">
+    <div className="flex justify-center items-center p-6 my-2 shadow-2xl">
       <Image
         src={src}
         alt={alt}

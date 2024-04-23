@@ -1,5 +1,6 @@
-import React from "react";
-import Image from "next/image";
+"use client";
+import React, { useEffect } from "react";
+import { AnalyticsData } from "@/utils/AnalyticsData";
 import {
   ChartBarIcon,
   CurrencyDollarIcon,
@@ -48,7 +49,64 @@ const features = [
   },
 ];
 
-export default function Example() {
+const About = () => {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src =
+      "https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js";
+    script.type = "text/javascript";
+    script.async = true;
+    script.innerHTML = `
+      {
+        "symbols": ${JSON.stringify(AnalyticsData.symbols)},
+        "chartOnly": ${AnalyticsData.chartOnly},
+        "width": ${AnalyticsData.width},
+        "height": ${AnalyticsData.height},
+        "locale": "${AnalyticsData.locale}",
+        "colorTheme": "${AnalyticsData.colorTheme}",
+        "autosize": ${AnalyticsData.autosize},
+        "showVolume": ${AnalyticsData.showVolume},
+        "showMA": ${AnalyticsData.showMA},
+        "hideDateRanges": ${AnalyticsData.hideDateRanges},
+        "hideMarketStatus": ${AnalyticsData.hideMarketStatus},
+        "hideSymbolLogo": ${AnalyticsData.hideSymbolLogo},
+        "scalePosition": "${AnalyticsData.scalePosition}",
+        "scaleMode": "${AnalyticsData.scaleMode}",
+        "fontFamily": "${AnalyticsData.fontFamily}",
+        "fontSize": "${AnalyticsData.fontSize}",
+        "noTimeScale": ${AnalyticsData.noTimeScale},
+        "valuesTracking": "${AnalyticsData.valuesTracking}",
+        "changeMode": "${AnalyticsData.changeMode}",
+        "chartType": "${AnalyticsData.chartType}",
+        "maLineColor": "${AnalyticsData.maLineColor}",
+        "maLineWidth": ${AnalyticsData.maLineWidth},
+        "maLength": ${AnalyticsData.maLength},
+        "lineWidth": ${AnalyticsData.lineWidth},
+        "lineType": ${AnalyticsData.lineType},
+        "dateRanges": ${JSON.stringify(AnalyticsData.dateRanges)},
+        "upColor": "${AnalyticsData.upColor}",
+        "downColor": "${AnalyticsData.downColor}",
+        "borderUpColor": "${AnalyticsData.borderUpColor}",
+        "borderDownColor": "${AnalyticsData.borderDownColor}",
+        "wickUpColor": "${AnalyticsData.wickUpColor}",
+        "wickDownColor": "${AnalyticsData.wickDownColor}"
+      }
+    `;
+
+    // Append the script to the parent div of Coinprice component
+    const analyticsDiv = document.getElementById("analytics-container");
+    if (analyticsDiv) {
+      analyticsDiv.appendChild(script);
+    }
+
+    // Cleanup function
+    return () => {
+      if (analyticsDiv && analyticsDiv.contains(script)) {
+        analyticsDiv.removeChild(script);
+      }
+    };
+  }, []);
+
   return (
     <div className="bg-white py-24 sm:py-32">
       <div className="mx-auto px-6 lg:px-8 container">
@@ -64,14 +122,29 @@ export default function Example() {
             within the cryptocurrency industry.
           </p>
         </div>
-        <div className="relative w-full h-[32rem] sm:h-[20rem] md:h-[25rem] lg:h-[38rem] mt-20">
-          <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-transparent to-white" />
-          <Image
-            src={"/assets/about-img.png"}
-            alt="Product screenshot"
-            className="w-full h-full object-cover rounded-xl shadow-xl ring-1 ring-gray-400/10"
-            layout="fill"
-          />
+        <div className="flex flex-wrap justify-center items-center mt-10">
+          <div className="max-w-lg mx-auto md:mx-0 md:max-w-none md:w-1/2 md:pr-8 ">
+            <div>
+              <h1 className="text-base font-bold mb-2">
+                TRINVEST is a global company with many investors in the World.
+              </h1>
+              <p className="text-gray-600">
+                The trading BOT, developed by a team of experts in the crypto
+                trading sphere and powered by AI, is designed for maximum
+                efficiency and effectiveness. It offers a valuable opportunity
+                for individuals, regardless of their experience in the market,
+                to automatically earn profits and experience substantial growth.
+              </p>
+            </div>
+          </div>
+          <div className="max-w-lg mx-auto md:mx-0 md:max-w-none md:w-1/2 md:pl-8 sm:w-full">
+            <div
+              id="analytics-container"
+              className="tradingview-widget-container"
+            >
+              <div className="tradingview-widget-container__widget"></div>
+            </div>
+          </div>
         </div>
         <div className="mx-auto mt-16 sm:mt-20 lg:mt-24">
           <dl className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-3 lg:gap-y-16">
@@ -96,4 +169,6 @@ export default function Example() {
       </div>
     </div>
   );
-}
+};
+
+export default About;

@@ -3,7 +3,7 @@ import ImageComponent from "./ImageComponent";
 
 const CryptoPlatforms = () => {
   return (
-    <div className="bg-blue-950 py-16 sm:py-24">
+    <div className="bg-gray-900 py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <h2 className="text-center text-3xl lg:text-4xl font-semibold leading-8 text-white pb-10">
           Crypto Currency trading platforms

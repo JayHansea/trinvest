@@ -3,7 +3,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="relative isolate overflow-hidden bg-gray-900 py-10 sm:py-16 lg:py-24">
+    <div className="relative isolate overflow-hidden bg-gray-950 py-10 sm:py-16 lg:py-24">
       <div className="mx-auto px-6 lg:px-8 container">
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2 ">
           <div className="max-w-xl lg:max-w-lg ">
@@ -85,6 +85,13 @@ const Footer = () => {
             </div>
           </dl>
         </div>
+        <p className="text-xs text-center text-gray-600 pt-16">
+          By utilizing this website, you acknowledge your acceptance of our
+          Terms of Use and Privacy Policy. It is of utmost importance to conduct
+          comprehensive research.
+          <br />
+          <br /> © 2024 trinvest.io
+        </p>
       </div>
       {/* <div
         className="absolute left-1/2 top-0 -z-10 -translate-x-1/2 blur-3xl xl:-top-6"

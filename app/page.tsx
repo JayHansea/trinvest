@@ -19,9 +19,7 @@ export default function Home() {
           <Banner />
         </div>
       </div>
-      <div>
-        <Coinprice />
-      </div>
+      <Coinprice />
       <AboutUs />
       <HowItWork />
       <Pricing />
