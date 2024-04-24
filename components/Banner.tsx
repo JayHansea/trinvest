@@ -17,8 +17,14 @@ const Banner = () => {
     return () => clearInterval(intervalId);
   }, []);
 
+  // Calculate the height of the banner considering the navbar height
+  const bannerHeight = `calc(100vh - 127px)`;
+
   return (
-    <div className="h-[550px] mx-auto flex flex-col place-content-center container">
+    <div
+      className="h-full mx-auto flex flex-col place-content-center container"
+      style={{ height: bannerHeight }}
+    >
       {bannerContent.map((item, index) => (
         <motion.div
           key={index}

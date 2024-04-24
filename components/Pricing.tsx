@@ -13,12 +13,17 @@ const Pricing = () => {
     <div className=" py-24 sm:py-32 ">
       <div className="mx-auto  px-6 lg:px-8 container">
         <div className="mx-auto  sm:text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Simple no-tricks pricing
+          <h2 className="text-base font-semibold leading-7 text-indigo-600">
+            PRICING & PLANS
           </h2>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            Investment plans we offer
+          </p>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Distinctio et nulla eum soluta et neque labore quibusdam. Saepe et
-            quasi iusto modi velit ut non voluptas in. Explicabo id ut laborum.
+            TRINVEST is a high profitable, secure and stable investment
+            platform. We provide a comprehensive profit system designed to help
+            you generate passive income. We are dedicated to working for your
+            financial success!
           </p>
         </div>
         <div className="mx-auto mt-16 max-w-2xl rounded-3xl ring-1 ring-gray-200 sm:mt-20 lg:mx-0 lg:flex lg:max-w-none">
