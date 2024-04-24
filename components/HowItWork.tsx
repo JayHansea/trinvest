@@ -24,7 +24,7 @@ const HowItWork = () => {
   return (
     <div className="bg-gray-200 py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8 container">
-        <div className="mx-auto md:text-center">
+        <div className="mx-auto text-center">
           <h2 className="text-base font-semibold leading-7 text-indigo-600">
             HOW IT WORKS
           </h2>

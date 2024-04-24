@@ -110,9 +110,9 @@ const About = () => {
   return (
     <div className="bg-white py-24 sm:py-32">
       <div className="mx-auto px-6 lg:px-8 container">
-        <div className="mx-auto md:text-center">
+        <div className="mx-auto text-center">
           <h2 className="text-base font-semibold leading-7 text-indigo-600">
-            FEATURES
+            ABOUT US
           </h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Why choose TRINVEST
@@ -123,8 +123,8 @@ const About = () => {
           </p>
         </div>
         <div className="flex flex-wrap justify-center items-center mt-10">
-          <div className="max-w-lg mx-auto md:mx-0 md:max-w-none md:w-1/2 md:pr-8 ">
-            <div>
+          <div className="max-w-lg mx-auto lg:mx-0 lg:max-w-none lg:w-1/2 lg:pr-8 ">
+            <div className="mb-10 lg:mb-0">
               <h1 className="text-base font-bold mb-2">
                 TRINVEST is a global company with many investors in the World.
               </h1>
@@ -137,7 +137,7 @@ const About = () => {
               </p>
             </div>
           </div>
-          <div className="max-w-lg mx-auto md:mx-0 md:max-w-none md:w-1/2 md:pl-8 sm:w-full">
+          <div className="max-w-lg mx-auto lg:mx-0 lg:max-w-none lg:w-1/2 lg:pl-8 sm:w-full">
             <div
               id="analytics-container"
               className="tradingview-widget-container"
