@@ -41,7 +41,7 @@ const HowItWork = () => {
               key={stat.id}
               className="mx-auto flex max-w-xs flex-col gap-y-4"
             >
-              <div className=" bg-blue-950 w-10 p-2 place-self-center mb-6 rounded-full">
+              <div className=" bg-gray-900 w-10 p-2 place-self-center mb-6 rounded-full">
                 <dt className="text-base leading-7 text-white">{stat.id}</dt>
               </div>
               <dt className="text-2xl font-semibold tracking-tight text-gray-900">

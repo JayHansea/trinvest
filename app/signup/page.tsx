@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Switch } from "@headlessui/react";
+import Link from "next/link";
 
 function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(" ");
@@ -9,10 +10,10 @@ function classNames(...classes: string[]): string {
 const SignUp = () => {
   const [agreed, setAgreed] = useState(false);
   return (
-    <div className="bg-blue-950 flex md:h-screen sm:h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 place-content-center">
+    <div className="bg-gray-950 flex md:h-screen sm:h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 place-content-center">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h1 className="text-2xl text-center uppercase font-bold text-amber-300">
-          Trinvest
+          <Link href={"/"}>Trinvest</Link>
         </h1>
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white">
           Create a new account
