@@ -1,6 +1,7 @@
 import React from "react";
 import PriceCard from "./PriceCard";
 import plans from "@/utils/PlanFeatures";
+import CalcRevenue from "./CalcRevenue";
 
 const Pricing = () => {
   return (
@@ -32,6 +33,7 @@ const Pricing = () => {
             />
           ))}
         </div>
+        <CalcRevenue />
       </div>
     </div>
   );
