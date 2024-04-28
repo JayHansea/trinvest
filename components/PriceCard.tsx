@@ -15,7 +15,7 @@ const PriceCard: React.FC<PriceCardProps> = ({
 }) => {
   return (
     <div className="w-full md:w-6/12 lg:w-4/12 p-4">
-      <div className="bg-gray-50 rounded-lg p-6 text-center">
+      <div className="bg-gray-200 rounded-lg p-6 text-center">
         <h3 className="text-xl font-bold tracking-tight text-gray-900 mb-4">
           {name}
         </h3>
