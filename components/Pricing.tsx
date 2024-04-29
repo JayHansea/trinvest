@@ -37,7 +37,7 @@ const Pricing = () => {
               description={plans[planName].Description}
               minDeposit={plans[planName].minDeposit}
               maxDeposit={plans[planName].maxDeposit}
-              roi={plans[planName].TotalROI}
+              roi={plans[planName].TotalROIDesc}
               revenue={revenues[planName]}
             />
           ))}

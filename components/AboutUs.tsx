@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { AnalyticsData } from "@/utils/AnalyticsData";
 import {
   ChartBarIcon,
@@ -50,6 +50,8 @@ const features = [
 ];
 
 const About = () => {
+  const analyticsDiv = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
@@ -141,6 +143,7 @@ const About = () => {
             <div
               id="analytics-container"
               className="tradingview-widget-container"
+              ref={analyticsDiv}
             >
               <div className="tradingview-widget-container__widget"></div>
             </div>
