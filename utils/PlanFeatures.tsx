@@ -1,6 +1,7 @@
-interface Plan {
+export interface Plan {
   Name: string;
-  Deposit: string;
+  minDeposit: string;
+  maxDeposit: string;
   Description: string;
   TotalROI: string;
 }
@@ -8,21 +9,24 @@ interface Plan {
 const plans: Record<string, Plan> = {
   Bronze: {
     Name: "Bronze Plan",
-    Deposit: "$100 – $29999",
+    minDeposit: "$100",
+    maxDeposit: "$29999",
     Description: "2% daily for 12 calendar days",
-    TotalROI: "124%",
+    TotalROI: "$124 - $38,044",
   },
   Gold: {
     Name: "Gold Plan",
-    Deposit: "$30000 – $49999",
+    minDeposit: "$30000",
+    maxDeposit: "$49999",
     Description: "3.5% daily for 13 calendar days",
-    TotalROI: "145.5%",
+    TotalROI: "$46,917 - $78,223",
   },
   Diamond: {
     Name: "Diamond Plan",
-    Deposit: "$50000 – $50000000",
+    minDeposit: "$50000",
+    maxDeposit: "$500000",
     Description: "5.5% daily for 7 calendar days",
-    TotalROI: "138.5%",
+    TotalROI: "$72,727 - $727,283",
   },
 };
 
