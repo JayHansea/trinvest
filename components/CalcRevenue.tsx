@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import plans, { Plan } from "@/utils/PlanFeatures";
 
 interface CalcRevenueProps {
@@ -14,6 +14,8 @@ const CalcRevenue: React.FC<CalcRevenueProps> = ({ onRevenueChange }) => {
     const newVolume = parseInt(e.target.value);
     setVolume(newVolume);
   };
+
+  const memoizedOnRevenueChange = useCallback(onRevenueChange, []);
 
   useEffect(() => {
     const calculateRevenues = () => {
@@ -38,11 +40,11 @@ const CalcRevenue: React.FC<CalcRevenueProps> = ({ onRevenueChange }) => {
         }
       });
       setRevenues(newRevenues);
-      onRevenueChange(newRevenues);
+      memoizedOnRevenueChange(newRevenues);
     };
 
     calculateRevenues();
-  }, [volume, onRevenueChange]);
+  }, [volume, memoizedOnRevenueChange]);
 
   return (
     <div className="flex justify-center items-center p-4">
