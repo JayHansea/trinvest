@@ -19,7 +19,7 @@ const FAQs = () => {
         <div className="mx-auto mt-16 sm:mt-20 lg:mt-24">
           <dl className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2 lg:gap-y-16">
             {features.map((feature) => (
-              <div key={feature.question} className="relative pl-16">
+              <div key={feature.question} className="relative">
                 <dt className="text-base font-semibold leading-7 text-gray-900">
                   {feature.question}
                 </dt>

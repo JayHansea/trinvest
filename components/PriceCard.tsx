@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 interface PriceCardProps {
@@ -18,8 +19,14 @@ const PriceCard: React.FC<PriceCardProps> = ({
   revenue,
 }) => {
   const isMaxOrMin =
-    revenue && (revenue.includes("Max.") || revenue.includes("Min."));
-  const isTotalReturn = revenue && revenue.includes("Total return:");
+    revenue !== null &&
+    revenue !== undefined &&
+    (revenue.toString().includes("Max.") ||
+      revenue.toString().includes("Min."));
+  const isTotalReturn =
+    revenue !== null &&
+    revenue !== undefined &&
+    revenue.toString().includes("Total return:");
 
   return (
     <div className="w-full md:w-6/12 lg:w-4/12 p-4">
@@ -48,18 +55,18 @@ const PriceCard: React.FC<PriceCardProps> = ({
             (USD)
           </span>
         </p>
-        <a
-          href="#"
+        <Link
+          href={"/signup"}
           className="block w-full rounded-md bg-gray-900 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-amber-300 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
         >
           Invest
-        </a>
+        </Link>
         <p
           id="revenueDisplay"
           className={`text-sm mt-4 py-2 font-bold tracking-tight ${
             isMaxOrMin ? "text-red-500" : "text-gray-900"
-          } ${isMaxOrMin && "bg-amber-300"} ${
-            isTotalReturn && "text-green-500"
+          } ${isMaxOrMin && "bg-red-100"} ${
+            isTotalReturn && "text-green-500 bg-amber-200"
           }`}
         >
           {revenue}

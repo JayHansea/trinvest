@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import plans, { Plan } from "@/utils/PlanFeatures";
 
 interface CalcRevenueProps {
@@ -8,44 +8,41 @@ interface CalcRevenueProps {
 
 const CalcRevenue: React.FC<CalcRevenueProps> = ({ onRevenueChange }) => {
   const [volume, setVolume] = useState<number>(100); // Initial volume
+  const [revenues, setRevenues] = useState<Record<string, string>>({});
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseInt(e.target.value);
     setVolume(newVolume);
-    calculateRevenues(newVolume);
   };
 
-  const calculateRevenues = (volume: number) => {
-    const revenues: Record<string, string> = {};
-    Object.keys(plans).forEach((planName) => {
-      revenues[planName] = calculateRevenue(volume, plans[planName]);
-    });
-    onRevenueChange(revenues);
-  };
+  useEffect(() => {
+    const calculateRevenues = () => {
+      const newRevenues: Record<string, string> = {};
+      Object.keys(plans).forEach((planName) => {
+        const plan = plans[planName];
+        const dailyInterestRate = parseFloat(plan.percentageInterest) / 100;
+        const amountAfterDays =
+          volume * Math.pow(1 + dailyInterestRate, parseInt(plan.days));
+        const totalReturn = parseFloat(amountAfterDays.toFixed(2));
 
-  const calculateRevenue = (volume: number, plan: Plan): string => {
-    const minDeposit = parseInt(
-      plan.minDeposit.replace("$", "").replace(",", "")
-    );
-    const maxDeposit = parseInt(
-      plan.maxDeposit.replace("$", "").replace(",", "")
-    );
+        // Check if total return is within the allowed range
+        if (totalReturn < parseInt(plan.minTotalROI)) {
+          // Total return is below minTotalROI
+          newRevenues[planName] = `Min. amount is ${plan.minDeposit} USD`; // Flag for displaying minDeposit
+        } else if (totalReturn > parseInt(plan.maxTotalROI)) {
+          // Total return is above maxTotalROI
+          newRevenues[planName] = `Max. amount is ${plan.maxDeposit} USD`; // Flag for displaying maxDeposit
+        } else {
+          // Total return is within range
+          newRevenues[planName] = `Total return: ${totalReturn} USD`;
+        }
+      });
+      setRevenues(newRevenues);
+      onRevenueChange(newRevenues);
+    };
 
-    if (volume < minDeposit) {
-      return `Min. amount is ${plan.minDeposit}`;
-    } else if (volume > maxDeposit) {
-      return `Max. amount is ${plan.maxDeposit}`;
-    } else {
-      const description = plan.Description.split(" ");
-      const dailyInterestRate = parseFloat(description[0].replace("%", ""));
-      const days = parseInt(description[2]);
-      let totalROI = volume;
-      for (let i = 0; i < days; i++) {
-        totalROI *= 1 + dailyInterestRate / 100;
-      }
-      return `Total return: ${totalROI.toFixed(2)} USD`;
-    }
-  };
+    calculateRevenues();
+  }, [volume, onRevenueChange]);
 
   return (
     <div className="flex justify-center items-center p-4">
@@ -63,11 +60,15 @@ const CalcRevenue: React.FC<CalcRevenueProps> = ({ onRevenueChange }) => {
               id="subject"
               autoComplete="subject"
               value={volume.toString()}
+              placeholder={volume.toString()}
               className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
             />
           </div>
         </div>
         <div className="mt-6">
+          <p className="text-xs leading-8 text-gray-900 font-bold italic font-mono">
+            (Drag range from left to right and vice versa to calculate interest)
+          </p>
           <input
             type="range"
             min="100"
