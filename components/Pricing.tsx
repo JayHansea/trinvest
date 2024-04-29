@@ -1,9 +1,16 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import PriceCard from "./PriceCard";
-import plans from "@/utils/PlanFeatures";
 import CalcRevenue from "./CalcRevenue";
+import plans from "@/utils/PlanFeatures";
 
 const Pricing = () => {
+  const [revenues, setRevenues] = useState<Record<string, string>>({});
+
+  const handleRevenueChange = (revenues: Record<string, string>) => {
+    setRevenues(revenues);
+  };
+
   return (
     <div className="py-24 sm:py-32">
       <div className="mx-auto px-6 lg:px-8 container">
@@ -28,12 +35,14 @@ const Pricing = () => {
               key={index}
               name={plans[planName].Name}
               description={plans[planName].Description}
-              deposit={plans[planName].Deposit}
+              minDeposit={plans[planName].minDeposit}
+              maxDeposit={plans[planName].maxDeposit}
               roi={plans[planName].TotalROI}
+              revenue={revenues[planName]}
             />
           ))}
         </div>
-        <CalcRevenue />
+        <CalcRevenue onRevenueChange={handleRevenueChange} />
       </div>
     </div>
   );
