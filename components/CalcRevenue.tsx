@@ -7,7 +7,7 @@ interface CalcRevenueProps {
 }
 
 const CalcRevenue: React.FC<CalcRevenueProps> = ({ onRevenueChange }) => {
-  const [volume, setVolume] = useState<number>(100); // Initial volume
+  const [volume, setVolume] = useState<number>(0); // Initial volume
   const [revenues, setRevenues] = useState<Record<string, string>>({});
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,8 +61,16 @@ const CalcRevenue: React.FC<CalcRevenueProps> = ({ onRevenueChange }) => {
               name="subject"
               id="subject"
               autoComplete="subject"
-              value={volume.toString()}
+              value={volume}
               placeholder={volume.toString()}
+              onChange={(e) => {
+                const value = e.target.value;
+                const newVolume =
+                  value.trim() === "" || isNaN(parseInt(value))
+                    ? 0
+                    : parseInt(value);
+                setVolume(newVolume);
+              }}
               className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
             />
           </div>
@@ -73,7 +81,7 @@ const CalcRevenue: React.FC<CalcRevenueProps> = ({ onRevenueChange }) => {
           </p>
           <input
             type="range"
-            min="100"
+            min="0"
             max="500000"
             value={volume}
             onChange={handleVolumeChange}

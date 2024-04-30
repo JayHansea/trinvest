@@ -38,9 +38,6 @@ const PriceCard: React.FC<PriceCardProps> = ({
           <span className="text-base font-bold tracking-tight text-gray-900 mb-8">
             Total ROI = {roi}
           </span>
-          <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">
-            (USD)
-          </span>
         </p>
 
         <p className="text-base font-semibold text-gray-600 mb-16">
