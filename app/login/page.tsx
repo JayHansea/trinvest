@@ -1,7 +1,16 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Axios } from "axios";
 
-const SignIn = () => {
+const Login = () => {
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+
+  const onLogin = async () => {};
   return (
     <div className="bg-gray-950 flex h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8 place-content-center">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -28,7 +37,9 @@ const SignIn = () => {
                 type="email"
                 autoComplete="email"
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
+                value={user.email}
+                onChange={(e) => setUser({ ...user, email: e.target.value })}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-800  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -57,7 +68,9 @@ const SignIn = () => {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
+                value={user.password}
+                onChange={(e) => setUser({ ...user, password: e.target.value })}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-800  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -67,7 +80,7 @@ const SignIn = () => {
               type="submit"
               className="flex w-full justify-center rounded-md bg-amber-300 text-black px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
             >
-              Sign in
+              Login
             </button>
           </div>
         </form>
@@ -86,4 +99,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Login;
