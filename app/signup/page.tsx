@@ -2,13 +2,27 @@
 import React, { useState } from "react";
 import { Switch } from "@headlessui/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Axios } from "axios";
 
 function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(" ");
 }
 
 const SignUp = () => {
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    agreed: true,
+  });
   const [agreed, setAgreed] = useState(false);
+
+  const onSignUp = async () => {};
+
   return (
     <div className="bg-gray-950 flex md:h-screen sm:h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 place-content-center">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -24,7 +38,7 @@ const SignUp = () => {
           <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
             <div>
               <label
-                htmlFor="first-name"
+                htmlFor="firstName"
                 className="block text-sm font-medium leading-6 text-white"
               >
                 First name
@@ -32,17 +46,21 @@ const SignUp = () => {
               <div className="mt-2.5">
                 <input
                   type="text"
-                  name="first-name"
-                  id="first-name"
+                  name="firstName"
+                  id="firstName"
                   autoComplete="given-name"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
+                  value={user.firstName}
+                  onChange={(e) =>
+                    setUser({ ...user, firstName: e.target.value })
+                  }
+                  className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
             <div>
               <label
-                htmlFor="last-name"
+                htmlFor="lastName"
                 className="block text-sm font-medium leading-6 text-white"
               >
                 Last name
@@ -50,11 +68,15 @@ const SignUp = () => {
               <div className="mt-2.5">
                 <input
                   type="text"
-                  name="last-name"
-                  id="last-name"
+                  name="lastName"
+                  id="lastName"
                   autoComplete="family-name"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
+                  value={user.lastName}
+                  onChange={(e) =>
+                    setUser({ ...user, lastName: e.target.value })
+                  }
+                  className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -73,7 +95,11 @@ const SignUp = () => {
                   type="username"
                   autoComplete="username"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
+                  value={user.username}
+                  onChange={(e) =>
+                    setUser({ ...user, username: e.target.value })
+                  }
+                  className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -91,7 +117,9 @@ const SignUp = () => {
                   type="email"
                   autoComplete="email"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
+                  value={user.email}
+                  onChange={(e) => setUser({ ...user, email: e.target.value })}
+                  className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -109,25 +137,33 @@ const SignUp = () => {
                   type="password"
                   autoComplete="current-password"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
+                  value={user.password}
+                  onChange={(e) =>
+                    setUser({ ...user, password: e.target.value })
+                  }
+                  className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
             <div className="sm:col-span-2">
               <label
-                htmlFor="password"
+                htmlFor="confirmPassword"
                 className="block text-sm font-medium leading-6 text-white"
               >
                 Retype Password
               </label>
               <div className="mt-2">
                 <input
-                  id="retypePassword"
-                  name="password"
-                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="confirmPassword"
                   autoComplete="current-password"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
+                  value={user.confirmPassword}
+                  onChange={(e) =>
+                    setUser({ ...user, confirmPassword: e.target.value })
+                  }
+                  className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -137,6 +173,7 @@ const SignUp = () => {
               <Switch
                 checked={agreed}
                 onChange={setAgreed}
+                aria-required
                 className={classNames(
                   agreed ? "bg-amber-300" : "bg-gray-200",
                   "flex w-8 flex-none cursor-pointer rounded-full p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
@@ -163,10 +200,11 @@ const SignUp = () => {
 
           <div>
             <button
+              onClick={onSignUp}
               type="submit"
               className="flex w-full justify-center rounded-md bg-amber-300 text-black px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
             >
-              Sign in
+              Sign Up
             </button>
           </div>
         </form>
@@ -174,10 +212,10 @@ const SignUp = () => {
         <p className="mt-10 text-center text-sm text-white">
           Already have an account?{" "}
           <a
-            href="/signin"
+            href="/login"
             className="font-semibold leading-6 text-indigo-600 hover:text-white"
           >
-            Sign in
+            Login
           </a>
         </p>
       </div>
