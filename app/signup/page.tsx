@@ -1,30 +1,99 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Switch } from "@headlessui/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Axios } from "axios";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 
 function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(" ");
 }
 
 const SignUp = () => {
+  const router = useRouter();
+  const [agreed, setAgreed] = useState(false);
   const [user, setUser] = useState({
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
-    agreed: true,
   });
-  const [agreed, setAgreed] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const onSignUp = async () => {};
+  const onSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      // Check if passwords match
+      if (user.password !== user.confirmPassword) {
+        throw new Error("Passwords do not match");
+      }
+
+      const response = await axios.post("/api/users/signup", user);
+      console.log("Signup successful", response.data);
+
+      // Simulate a successful signup
+      setTimeout(() => {
+        setLoading(false);
+        setUser({
+          firstname: "",
+          lastname: "",
+          username: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
+        toast.success("SignUp successful", {
+          style: {
+            backgroundColor: "#D0F0C0",
+            color: "#0f0",
+          },
+        });
+      }, 5000);
+
+      router.push("/login");
+    } catch (error: any) {
+      console.log("Signup failed", error.message);
+
+      toast.error(error.message, {
+        style: {
+          backgroundColor: "#FFCBDD",
+          color: "#f00",
+        },
+        duration: 5000,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    // Enable/disable button based on form validity
+    if (
+      user.firstname.length > 0 &&
+      user.lastname.length > 0 &&
+      user.username.length > 0 &&
+      user.email.length > 0 &&
+      user.password.length > 0 &&
+      user.confirmPassword.length > 0 &&
+      agreed
+    ) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [user, agreed]);
 
   return (
-    <div className="bg-gray-950 flex md:h-screen sm:h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 place-content-center">
+    <div
+      className={`bg-gray-950 flex md:h-full sm:h-full lg:h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8 place-content-center ${
+        loading && "cursor-wait"
+      } `}
+    >
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h1 className="text-2xl text-center uppercase font-bold text-amber-300">
           <Link href={"/"}>Trinvest</Link>
@@ -32,13 +101,16 @@ const SignUp = () => {
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white">
           Create a new account
         </h2>
+        <h2 className="mt-5 text-center text-base leading-9 tracking-tight text-white">
+          <Toaster />
+        </h2>
       </div>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" action="#" method="POST">
+        <form className="space-y-6" onSubmit={onSignUp}>
           <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
             <div>
               <label
-                htmlFor="firstName"
+                htmlFor="firstname"
                 className="block text-sm font-medium leading-6 text-white"
               >
                 First name
@@ -46,13 +118,13 @@ const SignUp = () => {
               <div className="mt-2.5">
                 <input
                   type="text"
-                  name="firstName"
-                  id="firstName"
+                  name="firstname"
+                  id="firstname"
                   autoComplete="given-name"
                   required
-                  value={user.firstName}
+                  value={user.firstname}
                   onChange={(e) =>
-                    setUser({ ...user, firstName: e.target.value })
+                    setUser({ ...user, firstname: e.target.value })
                   }
                   className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
                 />
@@ -60,7 +132,7 @@ const SignUp = () => {
             </div>
             <div>
               <label
-                htmlFor="lastName"
+                htmlFor="lastname"
                 className="block text-sm font-medium leading-6 text-white"
               >
                 Last name
@@ -68,13 +140,13 @@ const SignUp = () => {
               <div className="mt-2.5">
                 <input
                   type="text"
-                  name="lastName"
-                  id="lastName"
+                  name="lastname"
+                  id="lastname"
                   autoComplete="family-name"
                   required
-                  value={user.lastName}
+                  value={user.lastname}
                   onChange={(e) =>
-                    setUser({ ...user, lastName: e.target.value })
+                    setUser({ ...user, lastname: e.target.value })
                   }
                   className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
                 />
@@ -156,7 +228,7 @@ const SignUp = () => {
                 <input
                   id="confirmPassword"
                   name="confirmPassword"
-                  type="confirmPassword"
+                  type="password"
                   autoComplete="current-password"
                   required
                   value={user.confirmPassword}
@@ -200,9 +272,12 @@ const SignUp = () => {
 
           <div>
             <button
-              onClick={onSignUp}
               type="submit"
-              className="flex w-full justify-center rounded-md bg-amber-300 text-black px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
+              disabled={buttonDisabled}
+              className={`flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300 bg-amber-300 text-black ${
+                buttonDisabled &&
+                "bg-gray-400 text-gray-700 cursor-not-allowed hover:bg-gray-400"
+              }  ${loading && "cursor-wait"}`}
             >
               Sign Up
             </button>
