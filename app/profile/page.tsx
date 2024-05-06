@@ -1,7 +1,8 @@
 import React from "react";
+import DashboardNav from "@/components/DashboardNav";
 
-const ProfilePage = () => {
-  return <div>ProfilePage</div>;
+const ProfileDashboard = () => {
+  return <DashboardNav />;
 };
 
-export default ProfilePage;
+export default ProfileDashboard;

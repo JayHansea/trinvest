@@ -2,11 +2,13 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
 const Login = () => {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -22,27 +24,31 @@ const Login = () => {
       console.log("Login successful", response.data);
 
       // Simulate a successful login
+      toast.success("Login successful", {
+        style: {
+          backgroundColor: "#cef7ea",
+          color: "#306844",
+        },
+        duration: 3000,
+      });
+
+      // Simulate a successful login and redirect after 3 seconds
       setTimeout(() => {
         setLoading(false);
-
-        toast.success("Login successful", {
-          style: {
-            backgroundColor: "#D0F0C0",
-            color: "#0f0",
-          },
-        });
-      }, 5000);
-
-      router.push("/profile");
+        router.push("/profile");
+      }, 3000);
     } catch (error: any) {
       console.log("Login failed", error.message);
 
-      toast.error(error.message, {
+      const errorMessage =
+        error.response.data.error || "Request error, login failed";
+
+      toast.error(errorMessage, {
         style: {
           backgroundColor: "#FFCBDD",
           color: "#f00",
         },
-        duration: 5000,
+        duration: 3000,
       });
     } finally {
       setLoading(false);
@@ -114,17 +120,24 @@ const Login = () => {
                 </a>
               </div>
             </div>
-            <div className="mt-2">
+            <div className="mt-2 relative">
               <input
                 id="password"
                 name="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
                 required
                 value={user.password}
                 onChange={(e) => setUser({ ...user, password: e.target.value })}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-800  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
               />
+              <button
+                type="button"
+                className="absolute inset-y-0 right-0 flex items-center px-3 cursor-pointer stroke-cyan-500 hover:stroke-cyan-700"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
             </div>
           </div>
 
