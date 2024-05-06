@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Switch } from "@headlessui/react";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -13,6 +14,8 @@ function classNames(...classes: string[]): string {
 const SignUp = () => {
   const router = useRouter();
   const [agreed, setAgreed] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [user, setUser] = useState({
     firstname: "",
     lastname: "",
@@ -37,25 +40,27 @@ const SignUp = () => {
       console.log("Signup successful", response.data);
 
       // Simulate a successful signup
+      setUser({
+        firstname: "",
+        lastname: "",
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+      toast.success("SignUp successful", {
+        style: {
+          backgroundColor: "#cef7ea",
+          color: "#306844",
+        },
+        duration: 3000,
+      });
+
+      // Simulate a successful login and redirect after 3 seconds
       setTimeout(() => {
         setLoading(false);
-        setUser({
-          firstname: "",
-          lastname: "",
-          username: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
-        });
-        toast.success("SignUp successful", {
-          style: {
-            backgroundColor: "#D0F0C0",
-            color: "#0f0",
-          },
-        });
-      }, 5000);
-
-      router.push("/login");
+        router.push("/login");
+      }, 3000);
     } catch (error: any) {
       console.log("Signup failed", error.message);
 
@@ -64,7 +69,7 @@ const SignUp = () => {
           backgroundColor: "#FFCBDD",
           color: "#f00",
         },
-        duration: 5000,
+        duration: 3000,
       });
     } finally {
       setLoading(false);
@@ -202,11 +207,11 @@ const SignUp = () => {
               >
                 Password
               </label>
-              <div className="mt-2">
+              <div className="mt-2 relative">
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
                   required
                   value={user.password}
@@ -215,6 +220,13 @@ const SignUp = () => {
                   }
                   className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
                 />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 flex items-center px-3 cursor-pointer stroke-cyan-500 hover:stroke-cyan-700"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
               </div>
             </div>
             <div className="sm:col-span-2">
@@ -224,11 +236,11 @@ const SignUp = () => {
               >
                 Retype Password
               </label>
-              <div className="mt-2">
+              <div className="mt-2 relative">
                 <input
                   id="confirmPassword"
                   name="confirmPassword"
-                  type="password"
+                  type={showConfirmPassword ? "text" : "password"}
                   autoComplete="current-password"
                   required
                   value={user.confirmPassword}
@@ -237,6 +249,13 @@ const SignUp = () => {
                   }
                   className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-300 sm:text-sm sm:leading-6"
                 />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 flex items-center px-3 cursor-pointer stroke-cyan-500 hover:stroke-cyan-700"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
               </div>
             </div>
           </div>
