@@ -20,7 +20,7 @@ function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(" ");
 }
 
-const DashboardNav = () => {
+const DashboardNav = ({ logout }: { logout: () => void }) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedNavItem, setSelectedNavItem] = useState("Dashboard");
@@ -232,7 +232,10 @@ const DashboardNav = () => {
               <button className="bg-amber-400 text-gray-800 px-4 py-2 rounded-md mr-2 md:mr-4 text-sm md:text-base">
                 Make a deposit
               </button>
-              <button className="border border-gray-500 text-gray-500 px-4 py-2 rounded-md text-sm md:text-base">
+              <button
+                onClick={logout}
+                className="border border-gray-500 text-gray-500 px-4 py-2 rounded-md text-sm md:text-base"
+              >
                 Logout
               </button>
             </div>
@@ -240,7 +243,7 @@ const DashboardNav = () => {
         </header>
 
         <main>
-          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+          <div className="mx-auto container py-6 sm:px-6 lg:px-8">
             {selectedNavItem === "Dashboard" && <Dashboard />}
             {selectedNavItem === "Deposit" && <Deposit />}
             {selectedNavItem === "Withdraw" && <Withdraw />}

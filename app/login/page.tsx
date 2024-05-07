@@ -35,7 +35,7 @@ const Login = () => {
       // Simulate a successful login and redirect after 3 seconds
       setTimeout(() => {
         setLoading(false);
-        router.push("/profile");
+        router.push("/dashboard");
       }, 3000);
     } catch (error: any) {
       console.log("Login failed", error.message);
