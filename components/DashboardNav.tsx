@@ -1,7 +1,13 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import Dashboard from "./Dashboard";
+import Deposit from "./Deposit";
+import Withdraw from "./Withdraw";
+import History from "./History";
+import Profile from "./Profile";
 
 const user = {
   name: "Tom Cook",
@@ -9,33 +15,18 @@ const user = {
   imageUrl:
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
-const initialNavigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
-  { name: "Reports", href: "#", current: false },
-];
-const userNavigation = [
-  { name: "Profile", href: "#" },
-  { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
-];
 
 function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(" ");
 }
 
 const DashboardNav = () => {
-  const [navigation, setNavigation] = useState(initialNavigation);
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedNavItem, setSelectedNavItem] = useState("Dashboard");
 
-  const handleItemClick = (index: number) => {
-    const updatedNavigation = navigation.map((item, i) => ({
-      ...item,
-      current: index === i,
-    }));
-    setNavigation(updatedNavigation);
+  const handleNavItemClick = (text: React.SetStateAction<string>) => {
+    setSelectedNavItem(text);
   };
 
   return (
@@ -45,28 +36,72 @@ const DashboardNav = () => {
           <div className="mx-auto container px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <div className="flex-shrink-0">
-                <h1 className="text-2xl uppercase font-bold text-white">
+                <h1 className="text-1xl lg:text-2xl uppercase font-bold text-white">
                   Trinvest
                 </h1>
               </div>
               <div className="hidden md:block">
-                <div className="ml-4 flex items-baseline space-x-4">
-                  {navigation.map((item, index) => (
-                    <Link
-                      href={item.href}
-                      key={item.name}
-                      className={classNames(
-                        item.current
-                          ? "bg-gray-900 text-white"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                        "px-3 py-2 rounded-md text-base font-medium"
-                      )}
-                      aria-current={item.current ? "page" : undefined}
-                      onClick={() => handleItemClick(index)}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
+                <div className="ml-4 flex items-baseline space-x-2">
+                  <Link
+                    className={classNames(
+                      selectedNavItem === "Dashboard"
+                        ? "bg-gray-900 text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      "px-3 py-2 rounded-md text-sm"
+                    )}
+                    href={"#"}
+                    onClick={() => handleNavItemClick("Dashboard")}
+                  >
+                    Dashboard
+                  </Link>
+                  <Link
+                    className={classNames(
+                      selectedNavItem === "Deposit"
+                        ? "bg-gray-900 text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      "px-3 py-2 rounded-md text-sm"
+                    )}
+                    href={"#"}
+                    onClick={() => handleNavItemClick("Deposit")}
+                  >
+                    Deposit
+                  </Link>
+                  <Link
+                    className={classNames(
+                      selectedNavItem === "Withdraw"
+                        ? "bg-gray-900 text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      "px-3 py-2 rounded-md text-sm"
+                    )}
+                    href={"#"}
+                    onClick={() => handleNavItemClick("Withdraw")}
+                  >
+                    Withdraw
+                  </Link>
+                  <Link
+                    className={classNames(
+                      selectedNavItem === "History"
+                        ? "bg-gray-900 text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      "px-3 py-2 rounded-md text-sm"
+                    )}
+                    href={"#"}
+                    onClick={() => handleNavItemClick("History")}
+                  >
+                    History
+                  </Link>
+                  <Link
+                    className={classNames(
+                      selectedNavItem === "Profile"
+                        ? "bg-gray-900 text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      "px-3 py-2 rounded-md text-sm"
+                    )}
+                    href={"#"}
+                    onClick={() => handleNavItemClick("Profile")}
+                  >
+                    Profile
+                  </Link>
                 </div>
               </div>
               <div className="hidden md:block">
@@ -86,6 +121,7 @@ const DashboardNav = () => {
                         className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800"
                       >
                         <span className="sr-only">Open user menu</span>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           className="h-8 w-8 rounded-full"
                           src={user.imageUrl}
@@ -93,22 +129,6 @@ const DashboardNav = () => {
                         />
                       </button>
                     </div>
-                    {isOpen && (
-                      <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        <div className="py-1">
-                          {userNavigation.map((item, index) => (
-                            <Link
-                              href={item.href}
-                              key={item.name}
-                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                              role="menuitem"
-                            >
-                              {item.name}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </div>
               </div>
@@ -131,54 +151,101 @@ const DashboardNav = () => {
             </div>
           </div>
 
-          <div
-            className={classNames(isOpen ? "block" : "hidden", "md:hidden")}
-            id="mobile-menu"
-          >
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              {navigation.map((item, index) => (
+          {/* Mobile menu */}
+          <div className="md:hidden flex justify-center">
+            <div
+              className={classNames(isOpen ? "block" : "hidden", "container")}
+              id="mobile-menu"
+            >
+              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                 <Link
-                  href={item.href}
-                  key={item.name}
                   className={classNames(
-                    item.current
+                    selectedNavItem === "Dashboard"
                       ? "bg-gray-900 text-white"
                       : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                    "block px-3 py-2 rounded-md text-base font-medium"
+                    "px-3 py-2 rounded-md block font-medium text-sm"
                   )}
-                  aria-current={item.current ? "page" : undefined}
-                  onClick={() => handleItemClick(index)}
+                  href={"#"}
+                  onClick={() => handleNavItemClick("Dashboard")}
                 >
-                  {item.name}
+                  Dashboard
                 </Link>
-              ))}
-              <hr />
-              {userNavigation.map((item) => (
                 <Link
-                  href={item.href}
-                  key={item.name}
-                  className={
-                    "text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                  }
+                  className={classNames(
+                    selectedNavItem === "Deposit"
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                    "px-3 py-2 rounded-md block font-medium text-sm"
+                  )}
+                  href={"#"}
+                  onClick={() => handleNavItemClick("Deposit")}
                 >
-                  {item.name}
+                  Deposit
                 </Link>
-              ))}
+                <Link
+                  className={classNames(
+                    selectedNavItem === "Withdraw"
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                    "px-3 py-2 rounded-md block font-medium text-sm"
+                  )}
+                  href={"#"}
+                  onClick={() => handleNavItemClick("Withdraw")}
+                >
+                  Withdraw
+                </Link>
+                <Link
+                  className={classNames(
+                    selectedNavItem === "History"
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                    "px-3 py-2 rounded-md block font-medium text-sm"
+                  )}
+                  href={"#"}
+                  onClick={() => handleNavItemClick("History")}
+                >
+                  History
+                </Link>
+                <Link
+                  className={classNames(
+                    selectedNavItem === "Profile"
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                    "px-3 py-2 rounded-md block font-medium text-sm"
+                  )}
+                  href={"#"}
+                  onClick={() => handleNavItemClick("Profile")}
+                >
+                  Profile
+                </Link>
+              </div>
             </div>
           </div>
         </nav>
 
         <header className="bg-white shadow">
-          <div className="mx-auto container px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-              {navigation.find((item) => item.current)?.name}
+          <div className="mx-auto container flex justify-between items-center px-4 py-6 sm:px-6 lg:px-8">
+            <h1 className="text-base md:text-3xl font-bold tracking-tight text-gray-900">
+              {selectedNavItem}
             </h1>
+            <div className="flex items-center">
+              <button className="bg-amber-400 text-gray-800 px-4 py-2 rounded-md mr-2 md:mr-4 text-sm md:text-base">
+                Make a deposit
+              </button>
+              <button className="border border-gray-500 text-gray-500 px-4 py-2 rounded-md text-sm md:text-base">
+                Logout
+              </button>
+            </div>
           </div>
         </header>
 
         <main>
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-            {/* Your content */}
+            {selectedNavItem === "Dashboard" && <Dashboard />}
+            {selectedNavItem === "Deposit" && <Deposit />}
+            {selectedNavItem === "Withdraw" && <Withdraw />}
+            {selectedNavItem === "History" && <History />}
+            {selectedNavItem === "Profile" && <Profile />}
           </div>
         </main>
       </div>
