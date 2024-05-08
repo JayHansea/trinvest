@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -8,6 +8,7 @@ import DashboardNav from "@/components/DashboardNav";
 const ProfileDashboard = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
 
   const logout = async () => {
     try {
@@ -43,10 +44,23 @@ const ProfileDashboard = () => {
     }
   };
 
+  const getUserDetails = async () => {
+    try {
+      const res = await axios.get("/api/users/user");
+      setUser(res.data.data);
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+
+  useEffect(() => {
+    getUserDetails();
+  }, []);
+
   return (
     <div className={`${loading && "cursor-wait"}`}>
       <Toaster />
-      <DashboardNav logout={logout} />
+      <DashboardNav user={user} logout={logout} />
     </div>
   );
 };
