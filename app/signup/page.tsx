@@ -27,6 +27,13 @@ const SignUp = () => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // Function to validate email address using regex
+  const isValidEmail = (email: string): boolean => {
+    // Regular expression pattern for validating email address
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailPattern.test(email.toLowerCase());
+  };
+
   const onSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -34,6 +41,11 @@ const SignUp = () => {
       // Check if passwords match
       if (user.password !== user.confirmPassword) {
         throw new Error("Passwords do not match");
+      }
+
+      // Validate email address
+      if (!isValidEmail(user.email)) {
+        throw new Error("Invalid email address");
       }
 
       const response = await axios.post("/api/users/signup", user);
