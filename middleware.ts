@@ -12,14 +12,22 @@ export function middleware(request: NextRequest) {
     if (path.startsWith("/dashboard")) {
       return NextResponse.redirect(new URL("/login", request.nextUrl));
     }
+
     // If trying to access signup or login, allow access
     if (path === "/signup" || path === "/login") {
       return;
     }
+
     // If trying to access home page, allow access
     if (path === "/") {
       return;
     }
+
+    // If trying to access verify email page, allow access
+    if (path === "/verifyemail") {
+      return;
+    }
+
     // For any other path, redirect to login
     return NextResponse.redirect(new URL("/login", request.nextUrl));
   }
@@ -30,14 +38,17 @@ export function middleware(request: NextRequest) {
     if (path.startsWith("/dashboard")) {
       return;
     }
+
     // If trying to access signup or login, redirect to home
     if (path === "/signup" || path === "/login") {
       return NextResponse.redirect(new URL("/", request.nextUrl));
     }
+
     // If trying to access home page, allow access
     if (path === "/") {
       return;
     }
+
     // For any other path, redirect to home
     return NextResponse.redirect(new URL("/", request.nextUrl));
   }
@@ -45,5 +56,5 @@ export function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/", "/dashboard/:path*", "/login", "/signup"],
+  matcher: ["/", "/dashboard/:path*", "/login", "/signup, /verifyemail"],
 };
