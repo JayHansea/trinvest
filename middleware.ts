@@ -23,8 +23,16 @@ export function middleware(request: NextRequest) {
       return;
     }
 
+    // If trying to access reset password page, allow access
+    if (path.startsWith("/resetpassword")) {
+      return;
+    }
+    // If trying to access forgot password page, allow access
+    if (path === "/forgotpassword") {
+      return;
+    }
     // If trying to access verify email page, allow access
-    if (path === "/verifyemail") {
+    if (path.startsWith("/verifyemail")) {
       return;
     }
 
@@ -44,6 +52,19 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/", request.nextUrl));
     }
 
+    // If trying to access reset password page, redirect to home
+    if (path.startsWith("/resetpassword")) {
+      return NextResponse.redirect(new URL("/", request.nextUrl));
+    }
+    // If trying to access forgot password page, redirect to home
+    if (path === "/forgotpassword") {
+      return NextResponse.redirect(new URL("/", request.nextUrl));
+    }
+    // If trying to access verify email page, redirect to home
+    if (path.startsWith("/verifyemail")) {
+      return NextResponse.redirect(new URL("/", request.nextUrl));
+    }
+
     // If trying to access home page, allow access
     if (path === "/") {
       return;
@@ -56,5 +77,13 @@ export function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/", "/dashboard/:path*", "/login", "/signup, /verifyemail"],
+  matcher: [
+    "/",
+    "/dashboard/:path*",
+    "/login",
+    "/signup",
+    "/verifyemail",
+    "/resetpassword",
+    "/forgotpassword",
+  ],
 };

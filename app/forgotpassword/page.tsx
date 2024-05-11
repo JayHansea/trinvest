@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const ForgotPassword = () => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -26,6 +28,12 @@ const ForgotPassword = () => {
         },
         duration: 3000,
       });
+
+      // Simulate a successful password recovery and redirect after 3 seconds
+      setTimeout(() => {
+        setLoading(false);
+        router.push("/");
+      }, 3000);
     } catch (error: any) {
       console.log("Email submmission failed", error.message);
 
