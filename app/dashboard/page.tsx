@@ -4,11 +4,26 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import DashboardNav from "@/components/DashboardNav";
+import Dashboard from "@/components/Dashboard";
+
+interface Props {
+  user: any; // Define the type of user details
+  logout: () => void;
+}
+
+interface User {
+  firstname: string;
+  // Add other properties if necessary
+}
+
+function classNames(...classes: string[]): string {
+  return classes.filter(Boolean).join(" ");
+}
 
 const ProfileDashboard = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User>({ firstname: "" });
 
   const logout = async () => {
     try {
@@ -58,9 +73,14 @@ const ProfileDashboard = () => {
   }, []);
 
   return (
-    <div className={`${loading && "cursor-wait"}`}>
+    <div className={`${loading && "cursor-wait"} bg-gray-100`}>
       <Toaster />
       <DashboardNav user={user} logout={logout} />
+      <main>
+        <div className={`mx-auto container py-6 h-auto md:h-screen`}>
+          <Dashboard user={user} />
+        </div>
+      </main>
     </div>
   );
 };

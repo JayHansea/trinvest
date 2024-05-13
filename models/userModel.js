@@ -35,6 +35,8 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  image: String,
+  bitcoinWalletAddress: String,
   forgotPasswordToken: String,
   forgotPasswordTokenExpiry: Date,
   verifyToken: String,
