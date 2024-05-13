@@ -8,6 +8,8 @@ interface PriceCardProps {
   maxDeposit: string;
   roi: string;
   revenue: string;
+  selected: boolean;
+  onSelect: () => void;
 }
 
 const PriceCard: React.FC<PriceCardProps> = ({
@@ -17,6 +19,8 @@ const PriceCard: React.FC<PriceCardProps> = ({
   maxDeposit,
   roi,
   revenue,
+  selected,
+  onSelect,
 }) => {
   const isMaxOrMin =
     revenue !== null &&
@@ -29,7 +33,12 @@ const PriceCard: React.FC<PriceCardProps> = ({
     revenue.toString().includes("Total return:");
 
   return (
-    <div className="w-full md:w-6/12 lg:w-4/12 p-4">
+    <div
+      className={`w-full md:w-6/12 lg:w-4/12 p-4 ${
+        selected ? "border-2 border-gray-400" : ""
+      }`}
+      onClick={onSelect}
+    >
       <div className="bg-gray-200 rounded-lg p-6 text-center">
         <h3 className="text-xl font-bold tracking-tight text-gray-900 mb-4">
           {name}
@@ -54,7 +63,7 @@ const PriceCard: React.FC<PriceCardProps> = ({
         </p>
         <Link
           href={"/signup"}
-          className="block w-full rounded-md bg-gray-900 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-amber-300 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+          className="block w-full rounded-md bg-gray-800 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-amber-300 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
         >
           Invest
         </Link>

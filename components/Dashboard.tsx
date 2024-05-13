@@ -4,13 +4,13 @@ interface DashboardProps {
   user: {
     firstname: string; // Assuming firstname is a string, adjust as necessary
     // Add other properties of user here if needed
-    image: string; // URL of user's image
+    // image: string; // URL of user's image
   };
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ user }) => {
   return (
-    <div>
+    <div className="container px-4 sm:px-6 lg:px-8 overflow-x-hidden">
       <div className="flex flex-row my-5">
         <div className="md:mr-4 mb-4 md:mb-0">
           <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden">
@@ -52,7 +52,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
       {/* Transaction History Table */}
       <div className="mt-20">
         <h2 className="text-xl font-semibold mb-6">Transaction History</h2>
-        <table className="min-w-full divide-y divide-gray-200">
+        <table className="w-full md:min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
               <th
@@ -77,35 +77,35 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             <tr>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+              <td className="px-6 py-4 whitespace-nowrap text-xs md:text-sm font-medium text-gray-900">
                 Jan 1, 2024
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-6 py-4 whitespace-nowrap text-xs md:text-sm text-gray-500">
                 Deposit
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-6 py-4 whitespace-nowrap text-xs md:text-sm text-gray-500">
                 $10,000.00
               </td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+              <td className="px-6 py-4 whitespace-nowrap text-xs md:text-sm font-medium text-gray-900">
                 Jan 1, 2024
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-6 py-4 whitespace-nowrap text-xs md:text-sm text-gray-500">
                 Deposit
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-6 py-4 whitespace-nowrap text-xs md:text-sm text-gray-500">
                 $10,000.00
               </td>
             </tr>
             <tr>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+              <td className="px-6 py-4 whitespace-nowrap text-xs md:text-sm font-medium text-gray-900">
                 Jan 1, 2024
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-6 py-4 whitespace-nowrap text-xs md:text-sm text-gray-500">
                 Deposit
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-6 py-4 whitespace-nowrap text-xs md:text-sm text-gray-500">
                 $10,000.00
               </td>
             </tr>
