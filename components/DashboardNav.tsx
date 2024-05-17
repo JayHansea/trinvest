@@ -77,7 +77,7 @@ const DashboardNav = ({ logout }: Props) => {
                       : "text-gray-300 hover:bg-gray-700 hover:text-white",
                     "px-3 py-2 rounded-md text-sm"
                   )}
-                  href={"history"}
+                  href={"/transactionhistory"}
                   onClick={() => handleNavItemClick("History")}
                 >
                   History
@@ -89,7 +89,7 @@ const DashboardNav = ({ logout }: Props) => {
                       : "text-gray-300 hover:bg-gray-700 hover:text-white",
                     "px-3 py-2 rounded-md text-sm"
                   )}
-                  href={"profile"}
+                  href={"/profile"}
                   onClick={() => handleNavItemClick("Profile")}
                 >
                   Profile
@@ -181,7 +181,7 @@ const DashboardNav = ({ logout }: Props) => {
                     : "text-gray-300 hover:bg-gray-700 hover:text-white",
                   "px-3 py-2 rounded-md block font-medium text-sm"
                 )}
-                href={"withdraw"}
+                href={"/withdraw"}
                 onClick={() => handleNavItemClick("Withdraw")}
               >
                 Withdraw
@@ -193,7 +193,7 @@ const DashboardNav = ({ logout }: Props) => {
                     : "text-gray-300 hover:bg-gray-700 hover:text-white",
                   "px-3 py-2 rounded-md block font-medium text-sm"
                 )}
-                href={"history"}
+                href={"/transactionhistory"}
                 onClick={() => handleNavItemClick("History")}
               >
                 History
@@ -205,7 +205,7 @@ const DashboardNav = ({ logout }: Props) => {
                     : "text-gray-300 hover:bg-gray-700 hover:text-white",
                   "px-3 py-2 rounded-md block font-medium text-sm"
                 )}
-                href={"profile"}
+                href={"/profile"}
                 onClick={() => handleNavItemClick("Profile")}
               >
                 Profile

@@ -65,7 +65,10 @@ const Withdraw = () => {
   };
 
   return (
-    <div>
+    <div
+      className={`${loading && "cursor-wait"} bg-gray-100 h-full md:h-screen`}
+    >
+      <Toaster />
       <DashboardNav logout={logout} user={user} />
       <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
         <div className="my-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
