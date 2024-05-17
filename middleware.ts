@@ -13,6 +13,26 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/login", request.nextUrl));
     }
 
+    // If trying to access deposit, redirect to login
+    if (path.startsWith("/deposit")) {
+      return NextResponse.redirect(new URL("/login", request.nextUrl));
+    }
+
+    // If trying to access withdraw, redirect to login
+    if (path.startsWith("/withdraw")) {
+      return NextResponse.redirect(new URL("/login", request.nextUrl));
+    }
+
+    // If trying to access transactionhistory, redirect to login
+    if (path.startsWith("/transactionhistory")) {
+      return NextResponse.redirect(new URL("/login", request.nextUrl));
+    }
+
+    // If trying to access profile, redirect to login
+    if (path.startsWith("/profile")) {
+      return NextResponse.redirect(new URL("/login", request.nextUrl));
+    }
+
     // If trying to access signup or login, allow access
     if (path === "/signup" || path === "/login") {
       return;
@@ -44,6 +64,26 @@ export function middleware(request: NextRequest) {
   if (token) {
     // If trying to access dashboard, allow access
     if (path.startsWith("/dashboard")) {
+      return;
+    }
+
+    // If trying to access deposit, redirect to login
+    if (path.startsWith("/deposit")) {
+      return;
+    }
+
+    // If trying to access withdraw, redirect to login
+    if (path.startsWith("/withdraw")) {
+      return;
+    }
+
+    // If trying to access transactionhistory, redirect to login
+    if (path.startsWith("/transactionhistory")) {
+      return;
+    }
+
+    // If trying to access profile, redirect to login
+    if (path.startsWith("/profile")) {
       return;
     }
 
@@ -85,5 +125,9 @@ export const config = {
     "/verifyemail",
     "/resetpassword",
     "/forgotpassword",
+    "/deposit/:path*",
+    "/withdraw/:path*",
+    "/transactionhistory/:path*",
+    "/profile/:path*",
   ],
 };
