@@ -23,6 +23,7 @@ const SignUp = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    image: "",
   });
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -59,6 +60,7 @@ const SignUp = () => {
         email: "",
         password: "",
         confirmPassword: "",
+        image: "",
       });
       toast.success("SignUp successful", {
         style: {
@@ -107,7 +109,7 @@ const SignUp = () => {
 
   return (
     <div
-      className={`bg-gray-950 flex md:h-full sm:h-full lg:h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8 place-content-center ${
+      className={`bg-gray-950 flex md:h-full sm:h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 place-content-center ${
         loading && "cursor-wait"
       } `}
     >

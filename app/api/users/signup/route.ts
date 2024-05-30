@@ -1,5 +1,6 @@
 import { connect } from "@/dbConfig/dbConfig";
 import User from "@/models/userModel";
+import Investment from "@/models/investmentModel";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import { sendEmail } from "@/helpers/mailer";
@@ -9,8 +10,15 @@ connect();
 export async function POST(request: NextRequest) {
   try {
     const reqBody = await request.json();
-    const { firstname, lastname, username, email, password, confirmpassword } =
-      reqBody;
+    const {
+      firstname,
+      lastname,
+      username,
+      email,
+      password,
+      confirmpassword,
+      image,
+    } = reqBody;
 
     console.log(reqBody);
 
@@ -28,6 +36,7 @@ export async function POST(request: NextRequest) {
     const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(password, salt);
 
+    // create user collection
     const newUser = new User({
       firstname,
       lastname,
@@ -35,10 +44,25 @@ export async function POST(request: NextRequest) {
       email,
       password: hashedPassword,
       confirmpassword: hashedPassword,
+      image,
     });
 
     const savedUser = await newUser.save();
     console.log(savedUser);
+
+    // create investment collection
+    const newInvestment = new Investment({
+      userId: savedUser._id,
+      walletBalance: 0.0,
+      depositAmount: 0.0,
+      interest: 0.0,
+      percentageInterest: 0.0,
+      plan: "No plan yet",
+      bitcoinWalletAddress: "",
+    });
+
+    const savedInvestment = await newInvestment.save();
+    console.log(savedInvestment);
 
     // send verification email
     await sendEmail({ email, emailType: "VERIFY", userId: savedUser._id });

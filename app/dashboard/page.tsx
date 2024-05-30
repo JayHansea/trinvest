@@ -6,14 +6,17 @@ import { useRouter } from "next/navigation";
 import DashboardNav from "@/components/DashboardNav";
 import Dashboard from "@/components/Dashboard";
 
-interface Props {
-  user: any; // Define the type of user details
-  logout: () => void;
-}
-
 interface User {
   firstname: string;
-  // Add other properties if necessary
+}
+
+interface Investment {
+  walletBalance: number;
+  depositAmount: number;
+  interest: number;
+  percentageInterest: number;
+  plan: string;
+  bitcoinWalletAddress: string;
 }
 
 function classNames(...classes: string[]): string {
@@ -22,15 +25,15 @@ function classNames(...classes: string[]): string {
 
 const ProfileDashboard = () => {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true); // Initialize loading as true
   const [user, setUser] = useState<User>({ firstname: "" });
+  const [investment, setInvestment] = useState<Investment | null>(null); // Initialize investment as null
 
   const logout = async () => {
     try {
       setLoading(true);
       await axios.get("/api/users/logout");
 
-      // Simulate a successful logout
       toast.success("Logout successful", {
         style: {
           backgroundColor: "#cef7ea",
@@ -39,7 +42,6 @@ const ProfileDashboard = () => {
         duration: 3000,
       });
 
-      // Simulate a successful logout and redirect after 3 seconds
       setTimeout(() => {
         setLoading(false);
         router.push("/");
@@ -47,7 +49,6 @@ const ProfileDashboard = () => {
     } catch (error: any) {
       console.log(error.message);
 
-      // Simulate an unsuccessful logout
       toast.error(error.message, {
         style: {
           backgroundColor: "#FFCBDD",
@@ -68,17 +69,46 @@ const ProfileDashboard = () => {
     }
   };
 
+  const getInvestmentDetails = async () => {
+    try {
+      const res = await axios.get("/api/users/investment");
+      console.log("Investment API response:", res.data); // Log the API response
+      setInvestment(res.data.data);
+      setLoading(false); // Set loading to false once data is fetched
+    } catch (error) {
+      console.error("Error fetching investment details:", error);
+      setLoading(false); // Set loading to false even if there's an error
+    }
+  };
+
   useEffect(() => {
     getUserDetails();
+    getInvestmentDetails();
   }, []);
+
+  const defaultInvestment: Investment = {
+    walletBalance: 0,
+    depositAmount: 0,
+    interest: 0,
+    percentageInterest: 0,
+    plan: "N/A",
+    bitcoinWalletAddress: "N/A",
+  };
 
   return (
     <div className={`${loading && "cursor-wait"} bg-gray-100`}>
       <Toaster />
       <DashboardNav user={user} logout={logout} />
       <main>
-        <div className={`mx-auto container py-6 h-auto md:h-screen`}>
-          <Dashboard user={user} />
+        <div className="mx-auto container py-6 h-auto md:h-screen">
+          {loading ? (
+            <div>Loading...</div>
+          ) : (
+            <Dashboard
+              user={user}
+              investment={investment ?? defaultInvestment}
+            />
+          )}
         </div>
       </main>
     </div>

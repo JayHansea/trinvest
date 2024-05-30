@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { FaPen } from "react-icons/fa6";
+import Image from "next/image";
 
 interface Props {
   user: any; // Define the type of user details
@@ -15,6 +16,7 @@ interface User {
   firstname: string;
   lastname: string;
   username: string;
+  image?: string;
   // Add other properties if necessary
 }
 
@@ -30,6 +32,7 @@ const ProfilePage = () => {
     firstname: "",
     lastname: "",
     username: "",
+    image: "/assets/user.png",
   });
 
   const getUserDetails = async () => {
@@ -86,6 +89,38 @@ const ProfilePage = () => {
     }
   };
 
+  const handleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      setLoading(true);
+      const res = await axios.put("/api/users/profilepicture", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      toast.success("Profile picture updated successfully", {
+        duration: 3000,
+      });
+
+      setUser((prevUser) => ({ ...prevUser, image: res.data.data.image }));
+      setLoading(false);
+    } catch (error: any) {
+      console.log(error.message);
+      toast.error(error.message, {
+        duration: 3000,
+      });
+      setLoading(false);
+    }
+  };
+
   const logout = async () => {
     try {
       setLoading(true);
@@ -127,13 +162,26 @@ const ProfilePage = () => {
       <div className="mx-auto container px-4 sm:px-6 lg:px-8 pt-10 lg:w-2/4">
         <div className="flex items-center mb-4">
           <div className="w-24 h-24 md:w-32 md:h-32 relative">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              alt="User"
-              className="w-full h-full object-cover rounded-full"
+            <div className="flex justify-center items-center my-2">
+              <Image
+                src={user.image || "/assets/user.png"}
+                alt="user avatar"
+                width={100}
+                height={100}
+                className="object-contain rounded-full"
+              />
+            </div>
+            <FaPen
+              className="absolute bottom-4 right-5 w-8 h-8 text-white bg-gray-700 rounded-full p-1 cursor-pointer"
+              onClick={() => document.getElementById("imageInput")?.click()}
             />
-            <FaPen className="absolute bottom-0 right-4 w-8 h-8 text-white bg-gray-700 rounded-full p-1 cursor-pointer" />
+            <input
+              type="file"
+              id="imageInput"
+              className="hidden"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
           </div>
           <div className="ml-4">
             <p className="font-bold text-xl">
