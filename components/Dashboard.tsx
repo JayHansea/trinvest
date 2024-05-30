@@ -2,13 +2,26 @@ import React from "react";
 
 interface DashboardProps {
   user: {
-    firstname: string; // Assuming firstname is a string, adjust as necessary
-    // Add other properties of user here if needed
-    // image: string; // URL of user's image
+    firstname: string;
+  };
+  investment: {
+    walletBalance: number;
+    depositAmount: number;
+    interest: number;
+    percentageInterest: number;
+    plan: string;
+    bitcoinWalletAddress: string;
   };
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ user }) => {
+const Dashboard: React.FC<DashboardProps> = ({ user, investment }) => {
+  console.log("Investment:", investment); // Log the investment prop to check its value
+
+  if (!investment) {
+    // Render a loading state or a message indicating that investment data is not available
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="container px-4 sm:px-6 lg:px-8 overflow-x-hidden">
       <div className="flex flex-row my-5">
@@ -34,19 +47,28 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
         {/* Four grayish slightly transparent divs */}
         <div className="bg-gray-200 bg-opacity-50 rounded-lg p-4 w-full">
           <p>Wallet Balance</p>
-          <h2 className="text-2xl font-semibold mt-2">$62,558.24</h2>
+          <h2 className="text-2xl font-semibold mt-2">
+            ${investment.walletBalance ?? "N/A"}{" "}
+            {/* Use nullish coalescing to handle undefined */}
+          </h2>
         </div>
         <div className="bg-gray-200 bg-opacity-50 rounded-lg p-4 w-full">
           <p>Deposit Amount</p>
-          <h2 className="text-2xl font-semibold mt-2">$40,000.00</h2>
+          <h2 className="text-2xl font-semibold mt-2">
+            ${investment.depositAmount ?? "N/A"}
+          </h2>
         </div>
         <div className="bg-gray-200 bg-opacity-50 rounded-lg p-4 w-full">
-          <p>Interest (3.5%)</p>
-          <h2 className="text-2xl font-semibold mt-2">$22,558.24</h2>
+          <p>Interest ({investment.percentageInterest}%)</p>
+          <h2 className="text-2xl font-semibold mt-2">
+            ${investment.interest ?? "N/A"}
+          </h2>
         </div>
         <div className="bg-gray-200 bg-opacity-50 rounded-lg p-4 w-full">
           <p>Current Plan</p>
-          <h2 className="text-2xl font-semibold mt-2">Gold Plan</h2>
+          <h2 className="text-2xl font-semibold mt-2">
+            {investment.plan ?? "N/A"}
+          </h2>
         </div>
       </div>
       {/* Transaction History Table */}
