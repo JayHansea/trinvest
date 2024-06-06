@@ -22,6 +22,14 @@ const investmentSchema = new mongoose.Schema({
     type: Number,
     default: 0.0,
   },
+  previousWithdrawal: {
+    type: Number,
+    default: 0.0,
+  },
+  totalWithdrawal: {
+    type: Number,
+    default: 0.0,
+  },
   plan: {
     type: String,
     default: "No plan yet",
