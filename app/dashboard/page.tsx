@@ -7,6 +7,7 @@ import DashboardNav from "@/components/DashboardNav";
 import Dashboard from "@/components/Dashboard";
 
 interface User {
+  id: string;
   firstname: string;
 }
 
@@ -25,9 +26,9 @@ function classNames(...classes: string[]): string {
 
 const ProfileDashboard = () => {
   const router = useRouter();
-  const [loading, setLoading] = useState(true); // Initialize loading as true
-  const [user, setUser] = useState<User>({ firstname: "" });
-  const [investment, setInvestment] = useState<Investment | null>(null); // Initialize investment as null
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User>({ firstname: "", id: "" });
+  const [investment, setInvestment] = useState<Investment | null>(null);
 
   const logout = async () => {
     try {
@@ -69,22 +70,21 @@ const ProfileDashboard = () => {
     }
   };
 
-  const getInvestmentDetails = async () => {
-    try {
-      const res = await axios.get("/api/users/investment");
-      console.log("Investment API response:", res.data); // Log the API response
-      setInvestment(res.data.data);
-      setLoading(false); // Set loading to false once data is fetched
-    } catch (error) {
-      console.error("Error fetching investment details:", error);
-      setLoading(false); // Set loading to false even if there's an error
-    }
-  };
-
   useEffect(() => {
     getUserDetails();
+    const getInvestmentDetails = async () => {
+      try {
+        const res = await axios.get(`/api/users/investment/${user.id}`);
+        console.log("Investment API response:", res.data); // Log the API response
+        setInvestment(res.data.data);
+        setLoading(false); // Set loading to false once data is fetched
+      } catch (error) {
+        console.error("Error fetching investment details:", error);
+        setLoading(false); // Set loading to false even if there's an error
+      }
+    };
     getInvestmentDetails();
-  }, []);
+  }, [user.id]);
 
   const defaultInvestment: Investment = {
     walletBalance: 0,

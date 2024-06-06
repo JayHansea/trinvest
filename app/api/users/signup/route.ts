@@ -57,6 +57,8 @@ export async function POST(request: NextRequest) {
       depositAmount: 0.0,
       interest: 0.0,
       percentageInterest: 0.0,
+      previousWithdrawal: 0.0,
+      totalWithdrawal: 0.0,
       plan: "No plan yet",
       bitcoinWalletAddress: "",
     });

@@ -6,16 +6,29 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
 interface Props {
-  user: any; // Define the type of user details
   logout: () => void;
+}
+
+interface User {
+  id: string;
+}
+
+interface Investment {
+  walletBalance: number;
+  previousWithdrawal: number;
+  totalWithdrawal: number;
+  plan: string;
+  bitcoinWalletAddress: string;
 }
 
 const Withdraw = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [withdrawalLoading, setWithdrawalLoading] = useState(false);
   const [amount, setAmount] = useState("");
   const [error, setError] = useState("");
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<User>({ id: "" });
+  const [investment, setInvestment] = useState<Investment | null>(null);
 
   const logout = async () => {
     try {
@@ -52,16 +65,41 @@ const Withdraw = () => {
   };
 
   const handleWithdrawal = async () => {
+    // setWithdrawalLoading(true);
     if (!amount || isNaN(parseFloat(amount))) {
       setError("Please enter a valid amount.");
       return;
     }
+    // setWithdrawalLoading(false);
   };
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     const newValue = value.replace(/[^\d.]/g, ""); // Remove non-numeric characters
     setAmount(newValue);
+  };
+
+  useEffect(() => {
+    const getInvestmentDetails = async () => {
+      try {
+        const res = await axios.get(`/api/users/investment/${user.id}`);
+        console.log("Investment API response:", res.data); // Log the API response
+        setInvestment(res.data.data);
+        setLoading(false); // Set loading to false once data is fetched
+      } catch (error) {
+        console.error("Error fetching investment details:", error);
+        setLoading(false); // Set loading to false even if there's an error
+      }
+    };
+    getInvestmentDetails();
+  }, [user.id]);
+
+  const defaultInvestment: Investment = {
+    walletBalance: 0,
+    previousWithdrawal: 0.0,
+    totalWithdrawal: 0.0,
+    plan: "N/A",
+    bitcoinWalletAddress: "N/A",
   };
 
   return (
@@ -117,9 +155,9 @@ const Withdraw = () => {
             <button
               className="w-full rounded-md px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm hover:bg-amber-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300 bg-amber-300 text-black text-center"
               onClick={handleWithdrawal}
-              disabled={loading}
+              disabled={withdrawalLoading}
             >
-              {loading ? "Processing..." : "Withdraw"}
+              {withdrawalLoading ? "Processing..." : "Withdraw"}
             </button>
           </form>
         </div>

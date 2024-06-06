@@ -7,8 +7,9 @@ connect();
 
 export async function GET(request: NextRequest) {
   try {
-    const investmentId = await getDataFromToken(request);
-    const investment = await Investment.findOne({ _id: investmentId });
+    // make a dynamic endpoint, to be able to extract userId
+    const userId = getDataFromToken(request);
+    const investment = await Investment.findOne({ userId });
     return NextResponse.json({ message: "Investment found", data: investment });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 400 });
