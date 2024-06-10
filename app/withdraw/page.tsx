@@ -64,13 +64,16 @@ const Withdraw = () => {
     }
   };
 
-  const handleWithdrawal = async () => {
-    // setWithdrawalLoading(true);
+  const handleWithdrawal = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setWithdrawalLoading(true);
     if (!amount || isNaN(parseFloat(amount))) {
       setError("Please enter a valid amount.");
+      setWithdrawalLoading(false);
       return;
     }
-    // setWithdrawalLoading(false);
+    // Add your withdrawal logic here
+    setWithdrawalLoading(false);
   };
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,6 +105,8 @@ const Withdraw = () => {
     bitcoinWalletAddress: "N/A",
   };
 
+  const investmentData = investment || defaultInvestment;
+
   return (
     <div
       className={`${loading && "cursor-wait"} bg-gray-100 h-full md:h-screen`}
@@ -113,24 +118,32 @@ const Withdraw = () => {
           {/* Four grayish slightly transparent divs */}
           <div className="bg-gray-200 bg-opacity-50 rounded-lg p-4 w-full">
             <p>Wallet Balance</p>
-            <h2 className="text-2xl font-semibold mt-2">$62,558.24</h2>
+            <h2 className="text-2xl font-semibold mt-2">
+              ${investmentData.walletBalance.toLocaleString()}
+            </h2>
           </div>
           <div className="bg-gray-200 bg-opacity-50 rounded-lg p-4 w-full">
             <p>Previous Withdrawal</p>
-            <h2 className="text-2xl font-semibold mt-2">$40,000.00</h2>
+            <h2 className="text-2xl font-semibold mt-2">
+              ${investmentData.previousWithdrawal.toLocaleString()}
+            </h2>
           </div>
           <div className="bg-gray-200 bg-opacity-50 rounded-lg p-4 w-full">
-            <p>Total Withhdrawal</p>
-            <h2 className="text-2xl font-semibold mt-2">$22,558.24</h2>
+            <p>Total Withdrawal</p>
+            <h2 className="text-2xl font-semibold mt-2">
+              ${investmentData.totalWithdrawal.toLocaleString()}
+            </h2>
           </div>
           <div className="bg-gray-200 bg-opacity-50 rounded-lg p-4 w-full">
             <p>Current Plan</p>
-            <h2 className="text-2xl font-semibold mt-2">Gold Plan</h2>
+            <h2 className="text-2xl font-semibold mt-2">
+              {investmentData.plan}
+            </h2>
           </div>
         </div>
         <div className="w-full lg:w-6/12 mx-auto my-20 p-6 bg-white rounded-lg shadow-md">
           <h1 className="text-2xl font-semibold mb-6">Withdraw Funds</h1>
-          <form>
+          <form onSubmit={handleWithdrawal}>
             <div className="mb-4">
               <label
                 htmlFor="amount"
@@ -152,9 +165,10 @@ const Withdraw = () => {
                 />
               </div>
             </div>
+            {error && <p className="text-red-500 text-sm">{error}</p>}
             <button
               className="w-full rounded-md px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm hover:bg-amber-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300 bg-amber-300 text-black text-center"
-              onClick={handleWithdrawal}
+              type="submit"
               disabled={withdrawalLoading}
             >
               {withdrawalLoading ? "Processing..." : "Withdraw"}
